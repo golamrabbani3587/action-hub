@@ -12,6 +12,7 @@ const typeDefs = gql`
     name: String!
     description: String
     functionString: String
+    params: JSON          # Field added to hold action parameters
     resourceTemplateId: ID
     resourceTemplate: ResourceTemplate
   }
@@ -88,6 +89,10 @@ const typeDefs = gql`
 
   type Query {
     node(nodeId: ID!): NodeObject
+    action(actionId: ID!): Action       # Added query to fetch individual action
+    trigger(triggerId: ID!): Trigger    # Added query to fetch individual trigger
+    response(responseId: ID!): Response # Added query to fetch individual response
+    resourceTemplate(resourceTemplateId: ID!): ResourceTemplate  # Added query to fetch resource template
   }
 `;
 

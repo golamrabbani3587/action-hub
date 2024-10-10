@@ -9,13 +9,40 @@ const resourceTemplatesData = JSON.parse(fs.readFileSync(path.join(__dirname, '.
 
 const resolvers = {
   Query: {
-    node: (parent, args, context, info) => {
+    node: (parent, args) => {
       const node = nodesData.find((node) => node._id === args.nodeId);
       if (!node) {
         throw new Error('Node not found');
       }
-
       return node;
+    },
+    action: (parent, args) => {
+      const action = actionsData.find((action) => action._id === args.actionId);  // Fetch the action by ID
+      if (!action) {
+        throw new Error('Action not found');
+      }
+      return action;
+    },
+    trigger: (parent, args) => {
+      const trigger = triggersData.find((trigger) => trigger._id === args.triggerId);
+      if (!trigger) {
+        throw new Error('Trigger not found');
+      }
+      return trigger;
+    },
+    response: (parent, args) => {
+      const response = responsesData.find((response) => response._id === args.responseId);
+      if (!response) {
+        throw new Error('Response not found');
+      }
+      return response;
+    },
+    resourceTemplate: (parent, args) => {
+      const resourceTemplate = resourceTemplatesData.find((template) => template._id === args.resourceTemplateId);
+      if (!resourceTemplate) {
+        throw new Error('Resource Template not found');
+      }
+      return resourceTemplate;
     }
   },
   NodeObject: {

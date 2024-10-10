@@ -1,5 +1,6 @@
 require('colors');
 const { ApolloServer } = require('apollo-server');
+const jwt = require('jsonwebtoken');
 const typeDefs = require('./schema.js');
 const resolvers = require('./resolvers.js');
 const API_PORT = 4000;
@@ -12,8 +13,16 @@ const context = ({ req }) => {
         throw new Error('You must be logged in to access this resource.');
     }
 
-    return { user: { token } };
+    try {
+        // Verify the token and extract user data
+        const user = jwt.verify(token, 'app-secret');
+        return { user };
+    } catch (err) {
+        throw new Error('Invalid or expired token.');
+    }
 };
+
+
 
 const server = new ApolloServer({
     typeDefs,
